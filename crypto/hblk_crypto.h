@@ -4,7 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <openssl/ec.h>
+#include <openssl/objects.h>
 #include <openssl/sha.h>
+#include <openssl/err.h>
 #include <stdint.h>
 
 #define EC_CURVE   NID_secp256k1

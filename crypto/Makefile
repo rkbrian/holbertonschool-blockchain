@@ -1,2 +1,8 @@
 sha256-test: # usage: ./sha256-test string
 	gcc -Wall -Wextra -Werror -pedantic -I. -o sha256-test test/sha256-main.c provided/_print_hex_buffer.c sha256.c -lssl -lcrypto
+ec_create-test: # usage: valgrind ./ec_create-test
+	gcc -Wall -Wextra -Werror -pedantic -I. -o ec_create-test test/ec_create-main.c ec_create.c -lssl -lcrypto
+ec_to_pub-test: # usage: valgrind ./ec_to_pub-test
+	gcc -Wall -Wextra -Werror -pedantic -I. -o ec_to_pub-test test/ec_to_pub-main.c provided/_print_hex_buffer.c ec_to_pub.c ec_create.c -lssl -lcrypto
+ec_from_pub-test: # usage: valgrind ./ec_from_pub-test
+	gcc -Wall -Wextra -Werror -pedantic -I. -o ec_from_pub-test test/ec_from_pub-main.c provided/_print_hex_buffer.c ec_from_pub.c ec_to_pub.c ec_create.c -lssl -lcrypto
