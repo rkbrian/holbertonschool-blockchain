@@ -23,6 +23,6 @@ EC_KEY *ec_from_pub(uint8_t const pub[EC_PUB_LEN])
 	/* BN_CTX *ctx is optional, so make it NULL */
 	EC_POINT_oct2point(ecgroup, ecpoint, pub, EC_PUB_LEN, NULL);
 	EC_KEY_set_public_key(eckey, ecpoint);
-	EC_POINT_free();
+	EC_POINT_free(ecpoint);
 	return (eckey);
 }
