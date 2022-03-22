@@ -6,8 +6,10 @@
 #include <string.h>
 #include <dirent.h> /* lib of opendir() */
 #include <errno.h> /* lib of err num */
+#include <sys/stat.h> /* lib of mkdir */
 #include <openssl/ec.h>
 #include <openssl/objects.h>
+#include <openssl/pem.h>
 #include <openssl/sha.h>
 #include <openssl/err.h>
 #include <stdint.h>
