@@ -8,16 +8,11 @@
  */
 EC_KEY *ec_load(char const *folder)
 {
-	DIR *dir = opendir(folder);
 	FILE *fa, *fb;
 	char *pri_key, *pub_key;
 	EC_KEY *eckey;
 
-	if (!folder || errno == ENOENT) /* folder not existed */
-		return (NULL);
-	if (dir)
-		closedir(dir);
-	else
+	if (!folder)
 		return (NULL);
 	pri_key = malloc(sizeof(char) * (strlen(folder) + 9));
 	if (!pri_key)
@@ -35,13 +30,12 @@ EC_KEY *ec_load(char const *folder)
 	eckey = EC_KEY_new_by_curve_name(EC_CURVE);
 	fa = fopen(pri_key, "r"), free(pri_key);
 	fb = fopen(pub_key, "r"), free(pub_key);
-	if (!fa || !fb)
+	if (!fa || !fb || !PEM_read_ECPrivateKey(fa, &eckey, NULL, NULL) ||
+	    !PEM_read_EC_PUBKEY(fb, &eckey, NULL, NULL))
 	{
 		EC_KEY_free(eckey), fclose(fa), fclose(fb);
 		return (NULL);
 	}
-	PEM_read_ECPrivateKey(fa, &eckey, NULL, NULL);
-	PEM_read_EC_PUBKEY(fb, &eckey, NULL, NULL);
 	fclose(fa), fclose(fb);
 	return (eckey);
 }
