@@ -8,11 +8,16 @@
  */
 EC_KEY *ec_load(char const *folder)
 {
+	DIR *dir = opendir(folder);
 	FILE *fa, *fb;
 	char *pri_key, *pub_key;
 	EC_KEY *eckey;
 
-	if (!folder)
+	if (!folder || errno == ENOENT) /* folder not existed */
+		return (NULL);
+	if (dir)
+		closedir(dir);
+	else
 		return (NULL);
 	pri_key = malloc(sizeof(char) * (strlen(folder) + 9));
 	if (!pri_key)
