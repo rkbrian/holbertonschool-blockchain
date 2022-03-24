@@ -30,8 +30,8 @@ EC_KEY *ec_load(char const *folder)
 	eckey = EC_KEY_new_by_curve_name(EC_CURVE);
 	fa = fopen(pri_key, "r"), free(pri_key);
 	fb = fopen(pub_key, "r"), free(pub_key);
-	if (!fa || !fb || !PEM_read_ECPrivateKey(fa, &eckey, NULL, NULL) ||
-	    !PEM_read_EC_PUBKEY(fb, &eckey, NULL, NULL))
+	if (!fa || !fb || !PEM_read_EC_PUBKEY(fb, &eckey, NULL, NULL) ||
+	    !PEM_read_ECPrivateKey(fa, &eckey, NULL, NULL))
 	{
 		EC_KEY_free(eckey), fclose(fa), fclose(fb);
 		return (NULL);
