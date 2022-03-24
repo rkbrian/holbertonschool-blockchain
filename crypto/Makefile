@@ -12,3 +12,5 @@ ec_save-test:
 	gcc -Wall -Wextra -Werror -pedantic -I. -o ec_save-test test/ec_save-main.c ec_save.c ec_create.c ec_to_pub.c provided/_print_hex_buffer.c -lssl -lcrypto
 ec_load-test: # usage: ./ec_load-test foldername
 	gcc -Wall -Wextra -Werror -pedantic -I. -o ec_load-test test/ec_load-main.c ec_load.c ec_save.c ec_create.c ec_to_pub.c provided/_print_hex_buffer.c -lssl -lcrypto
+ec_sign-test: # usage: ./ec_sign-test
+	gcc -Wall -Wextra -Werror -pedantic -I. -o ec_sign-test test/ec_sign-main.c provided/_print_hex_buffer.c ec_sign.c ec_create.c -lssl -lcrypto
