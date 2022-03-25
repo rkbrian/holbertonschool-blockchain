@@ -15,7 +15,7 @@ int ec_verify(EC_KEY const *key, uint8_t const *msg, size_t msglen,
 {
 	int validity;
 
-	if (!key || !msg || !sig)
+	if (!key || !msg || !sig || sig->len == 0)
 		return (0);
 	validity = ECDSA_verify(0, msg, (int)msglen,
 				(unsigned char *)sig->sig, (int)sig->len, (EC_KEY *)key);
