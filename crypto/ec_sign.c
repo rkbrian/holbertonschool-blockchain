@@ -17,20 +17,21 @@ uint8_t *ec_sign(EC_KEY const *key, uint8_t const *msg, size_t msglen,
 {
 	uint8_t *sig_buffer = NULL;
 	EC_KEY *keycopy;
-	unsigned int *siglen;
 
 	if (!key || !msg || !msglen || !sig)
 		return (NULL);
 	keycopy = EC_KEY_dup(key); /* ECDSA_sign uses non-const key */
 	if (!keycopy)
 		return (NULL);
-	siglen = (unsigned int *)&sig->len;
-	if (*siglen > strlen((char *)sig->sig) - 1)
-		*siglen = strlen((char *)sig->sig) - 1;
+
+	if (sig->len != (unsigned int)strlen((unsigned char *)sig->sig) - 1)
+		sig->len = (unsigned int)strlen((unsigned char *)sig->sig) - 1;
+	/* printf("%u, %lu\n", (unsigned int)sig->len, */
+	/* strlen((unsigned char *)sig->sig) - 1); */
 	/* Computes ECDSA signature of a given hash value using the supplied */
 	/*   private key (note: sig must point to ECDSA_size(eckey) bytes */
 	/*   of memory). */
-	ECDSA_sign(0, msg, msglen, sig->sig, siglen, keycopy);
+	ECDSA_sign(0, msg, msglen, sig->sig, (unsigned int *)&sig->len, keycopy);
 	sig_buffer = sig->sig;
 	EC_KEY_free(keycopy);
 	return (sig_buffer);
