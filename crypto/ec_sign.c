@@ -24,8 +24,8 @@ uint8_t *ec_sign(EC_KEY const *key, uint8_t const *msg, size_t msglen,
 	if (!keycopy)
 		return (NULL);
 
-	if (sig->len != (unsigned int)strlen((unsigned char *)sig->sig) - 1)
-		sig->len = (unsigned int)strlen((unsigned char *)sig->sig) - 1;
+	if (sig->len != strlen((const char *)sig->sig) - 1)
+		sig->len = strlen((const char *)sig->sig) - 1;
 	/* printf("%u, %lu\n", (unsigned int)sig->len, */
 	/* strlen((unsigned char *)sig->sig) - 1); */
 	/* Computes ECDSA signature of a given hash value using the supplied */
