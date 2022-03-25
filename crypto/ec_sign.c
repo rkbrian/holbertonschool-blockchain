@@ -15,5 +15,19 @@
 uint8_t *ec_sign(EC_KEY const *key, uint8_t const *msg, size_t msglen,
 		 sig_t *sig)
 {
-	;
+	uint8_t *sig_buffer = NULL;
+	EC_KEY *keycopy;
+
+	if (!key || !msg || !msglen || !sig)
+		return (NULL);
+	keycopy = EC_KEY_dup(key); /* ECDSA_sign uses non-const key */
+	if (!keycopy)
+		return (NULL);
+	/* Computes ECDSA signature of a given hash value using the supplied */
+	/*   private key (note: sig must point to ECDSA_size(eckey) bytes */
+	/*   of memory). */
+	ECDSA_sign(0, msg, msglen, sig->sig, (unsigned int *)&sig->len, keycopy);
+	sig_buffer = sig->sig;
+	EC_KEY_free(keycopy);
+	return (sig_buffer);
 }
