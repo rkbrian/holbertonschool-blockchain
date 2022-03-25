@@ -18,7 +18,7 @@ uint8_t *ec_sign(EC_KEY const *key, uint8_t const *msg, size_t msglen,
 	uint8_t *sig_buffer = NULL;
 	EC_KEY *keycopy;
 
-	if (!key || !msg || !sig)
+	if (!key || !msg)
 		return (NULL);
 	keycopy = EC_KEY_dup(key); /* ECDSA_sign uses non-const key */
 	if (!keycopy)
