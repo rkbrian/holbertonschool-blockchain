@@ -5,17 +5,17 @@
 /********************************** DEFINES **********************************/
 /*****************************************************************************/
 
-# define ADD_NODE_FRONT(1 << 0)
-# define ADD_NODE_REAR(~ADD_NODE_FRONT)
+# define ADD_NODE_FRONT		(1 << 0)
+# define ADD_NODE_REAR		(~ADD_NODE_FRONT)
 
-# define ADD_NODE_BEFORE(1 << 0)
-# define ADD_NODE_AFTER(~ADD_NODE_BEFORE)
+# define ADD_NODE_BEFORE	(1 << 0)
+# define ADD_NODE_AFTER		(~ADD_NODE_BEFORE)
 
-# define SORT_LIST_ASC(1 << 0)
-# define SORT_LIST_DESC(~SORT_LIST_ASC)
+# define SORT_LIST_ASC		(1 << 0)
+# define SORT_LIST_DESC		(~SORT_LIST_ASC)
 
-# define MT_SUPPORT_TRUE(1 << 0)
-# define MT_SUPPORT_FALSE(~MT_SUPPORT_TRUE)
+# define MT_SUPPORT_TRUE	(1 << 0)
+# define MT_SUPPORT_FALSE	(~MT_SUPPORT_TRUE)
 
 /*****************************************************************************/
 /*********************************** TYPES ***********************************/
@@ -96,12 +96,12 @@ llist_t *llist_create(unsigned int flags);
  *              `llist_create()`. Static initialized lists cannot be destroyed
  *              using this function
  *
-	 * @list:          A pointer to the list to destroy
-	 * @destroy_nodes: 1 if the nodes should be destroyed, 0 otherwise
-	 * @destructor:    Node destructor used if @destroy_nodes is 1. If NULL,
-		 *                 the GlibC free() function is used
+ * @list:          A pointer to the list to destroy
+ * @destroy_nodes: 1 if the nodes should be destroyed, 0 otherwise
+ * @destructor:    Node destructor used if @destroy_nodes is 1. If NULL,
+ *                 the GlibC free() function is used
  *
-	 * Return: 0 upon success. Upon failure, -1 is returned, andthe global variable
+ * Return: 0 upon success. Upon failure, -1 is returned, andthe global variable
  *         `llist_errno` is set with the appropriate value.
  */
 int llist_destroy(llist_t *list, int destroy_nodes, node_dtor_t destructor);
@@ -134,7 +134,7 @@ int llist_add_node(llist_t *list, llist_node_t node, int flags);
  *         `llist_errno` is set with the appropriate value.
  */
 int llist_insert_node(llist_t *list, llist_node_t node,
-		      node_ident_t identifier, void *arg, int flags);
+	node_ident_t identifier, void *arg, int flags);
 
 /**
  * llist_remove_node - Removes a node from a list
@@ -152,7 +152,7 @@ int llist_insert_node(llist_t *list, llist_node_t node,
  *         `llist_errno` is set with the appropriate value.
  */
 int llist_remove_node(llist_t *list, node_ident_t identifier, void *arg,
-		      int destroy_node, node_dtor_t destructor);
+	int destroy_node, node_dtor_t destructor);
 
 /**
  * llist_find_node - Finds a node in a list
@@ -168,7 +168,7 @@ int llist_remove_node(llist_t *list, node_ident_t identifier, void *arg,
  *         appropriate value
  */
 llist_node_t llist_find_node(llist_t *list, node_ident_t identifier,
-			     void *arg);
+	void *arg);
 
 /**
  * llist_get_node_at - Gets a node at a specific index in a list
@@ -254,10 +254,12 @@ int llist_is_empty(llist_t *list);
  *              the first list, so after calling this function, the second list
  *              is empty. Remember to call `llist_destroy()` on the second
  *              list (if it was created by `llist_create()`)
- * @first:  Pointer to the first list to operate on.
+ *
+ * @first:  Pointer to the first list to operate on
  * @second: Pointer to the second list to operate on.
+ *
  * Return: 0 upon success. Upon failure, -1 is returned, andthe global variable
- *         'llist_errno' is set with the appropriate value.
+ *         `llist_errno` is set with the appropriate value.
  */
 int llist_append(llist_t *first, llist_t *second);
 
