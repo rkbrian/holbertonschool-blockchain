@@ -8,34 +8,26 @@
  */
 blockchain_t *blockchain_create(void)
 {
-	blockchain_t *bloke;
+	blockchain_t *blockchain;
+	block_t *block;
 
-	bloke = malloc(sizeof(blockchain_t));
-	if (!bloke)
+	blockchain = malloc(sizeof(blockchain_t));
+	if (!blockchain)
 		return (NULL);
-	bloke->chain = malloc(sizeof(block_t));
-	if (bloke->chain == NULL)
+	block = malloc(sizeof(block_t));
+	if (!block)
 	{
-		free(bloke);
+		free(blockchain);
 		return (NULL);
 	}
-	bloke->chain->info = malloc(sizeof(block_info_t));
-	if (bloke->chain->info == NULL)
-	{
-		free(bloke->chain), free(bloke);
-		return (NULL);
-	}
-	bloke->chain->data = malloc(sizeof(block_data_t));
-	if (bloke->chain->data == NULL)
-	{
-		free(bloke->chain->info), free(bloke->chain), free(bloke);
-		return (NULL);
-	}
-	bloke->chain->info->index = 0, bloke->chain->info->difficulty = 0;
-	bloke->chain->info->timestamp = 1537578000, bloke->chain->info->nonce = 0;
-	memset(bloke->chain->info->prev_hash, 0, SHA256_DIGEST_LENGTH);
-	bloke->chain->data->buffer = "Holberton School", bloke->chain->data->len = 16;
-	bloke->chain->hash = "\xc5\x2c\x26\xc8\xb5\x46\x16\x39\x63\x5d\x8e\xdf\x2a\x97\
-\xd4\x8d\x0c\x8e\x00\x09\xc8\x17\xf2\xb1\xd3\xd7\xff\x2f\x04\x51\x58\x03"
-	return (bloke);
+	blockchain->chain = llist_create(MT_SUPPORT_FALSE);
+	block->info.index = 0, block->info.difficulty = 0;
+	block->info.timestamp = 1537578000, block->info.nonce = 0;
+	memset(block->info.prev_hash, 0, SHA256_DIGEST_LENGTH);
+	block->data.len = strlen(GENESIS_STRING);
+	memset(block->data.buffer, 0, BLOCKCHAIN_DATA_MAX);
+	memcpy(block->data.buffer, GENESIS_STRING, block->data.len);
+	memcpy(block->hash, GENESIS_HASH, sizeof(GENESIS_HASH));
+	llist_add_node(blockchain->chain, block, ADD_NODE_FRONT);
+	return (blockchain);
 }
