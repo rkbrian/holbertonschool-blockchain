@@ -1,15 +1,20 @@
 CC = gcc
-SRC = blockchain_create.c
+SRC = blockchain_create.c block_create.c
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -pedantic
 RM = rm -f
 blockchain_create-test: # usage: ./blockchain_create-test
 	$(CC) $(CFLAGS) -I. -o $@ blockchain_create.c test/blockchain_create-main.c provided/_blockchain_print.c provided/_blockchain_destroy.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
+block_create-test: # usage: ./block_create-test
+	$(CC) $(CFLAGS) -I. -o $@ blockchain_create.c block_create.c test/block_create-main.c provided/_blockchain_print.c provided/_blockchain_destroy.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
+
+
+
+
+
 
 $(OBJ): %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
-libhblk_crypto.a: $(OBJ)
-	ar rc $@ $(OBJ)
 oclean:
 	$(RM) $(OBJ)
 testclean:

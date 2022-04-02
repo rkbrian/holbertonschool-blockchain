@@ -5,12 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <llist.h>
-#include <openssl/ec.h>
-#include <openssl/objects.h>
-#include <openssl/pem.h>
-#include <openssl/sha.h>
-#include <openssl/ecdsa.h>
-#include <openssl/err.h>
+#include <time.h>
 #include "../../crypto/hblk_crypto.h"
 
 #define BLOCKCHAIN_DATA_MAX 1024
