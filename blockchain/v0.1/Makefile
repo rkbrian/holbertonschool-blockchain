@@ -11,6 +11,8 @@ block_destroy-test: # usage: valgrind ./block_destroy-test
 	$(CC) $(CFLAGS) -I. -o $@ blockchain_create.c block_create.c block_destroy.c test/block_destroy-main.c provided/_blockchain_destroy.c  -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
 blockchain_destroy-test: # usage: valgrind ./blockchain_destroy-test
 	$(CC) $(CFLAGS) -I. -o $@ blockchain_destroy.c blockchain_create.c block_create.c block_destroy.c test/blockchain_destroy-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
+block_hash-test: # usage: ./block_hash-test
+	$(CC) $(CFLAGS) -I. -o $@ blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c test/block_hash-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
 
 
 $(OBJ): %.o: %.c
