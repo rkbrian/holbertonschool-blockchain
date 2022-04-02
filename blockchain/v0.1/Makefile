@@ -1,5 +1,5 @@
 CC = gcc
-SRC = blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c
+SRC = blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -pedantic
 RM = rm -f
@@ -12,7 +12,7 @@ block_destroy-test: # usage: valgrind ./block_destroy-test
 blockchain_destroy-test: # usage: valgrind ./blockchain_destroy-test
 	$(CC) $(CFLAGS) -I. -o $@ blockchain_destroy.c blockchain_create.c block_create.c block_destroy.c test/blockchain_destroy-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
 block_hash-test: # usage: ./block_hash-test
-	$(CC) $(CFLAGS) -I. -o $@ blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c test/block_hash-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
+	$(CC) $(CFLAGS) -I. -o $@ blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c test/block_hash-main.c provided/_blockchain_print.c provided/_blockchain_destroy.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
 
 
 $(OBJ): %.o: %.c
