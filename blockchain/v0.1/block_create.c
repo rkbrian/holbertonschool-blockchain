@@ -1,7 +1,7 @@
 #include "blockchain.h"
 
 /**
- * block_create - creates a Block structure and initializes it.
+ * block_create - create a Block structure and initializes it.
  * @prev: a pointer to the previous Block in the Blockchain
  * @data: points to a memory area to duplicate in the Block's data
  * @data_len: stores the number of bytes to duplicate in data.
