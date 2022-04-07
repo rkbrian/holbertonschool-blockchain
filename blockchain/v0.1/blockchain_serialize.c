@@ -39,6 +39,7 @@ int blockchain_serialize(blockchain_t const *blockchain, char const *path)
 		block_swap(&block->data.len, sizeof(block->data.len), fp, endi);
 		block_swap(block->data.buffer, block->data.len, fp, endi);
 		block_swap(block->hash, sizeof(block->hash), fp, endi);
+		i++;
 	}
 	fclose(fp);
 	return (0);
