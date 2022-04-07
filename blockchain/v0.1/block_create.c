@@ -17,15 +17,18 @@ block_t *block_create(block_t const *prev, int8_t const *data,
 	block = malloc(sizeof(block_t));
 	if (!block)
 		return (NULL);
+	if (data_len > BLOCKCHAIN_DATA_MAX)
+		data_len = BLOCKCHAIN_DATA_MAX;
 	block->info.difficulty = 0;
 	time((time_t *)&block->info.timestamp);
 	block->info.nonce = 0;
 	if (prev)
 	{
 		block->info.index = prev->info.index + 1;
+		memset(block->data.buffer, 0, sizeof(block->data.buffer));
 		memcpy(block->info.prev_hash, prev->hash, sizeof(prev->hash));
 	}
-	else
+	else /* genesis block is created in blockchain_create, impossible */
 	{
 		block->info.index = 0;
 		memset(block->info.prev_hash, 0, SHA256_DIGEST_LENGTH);
