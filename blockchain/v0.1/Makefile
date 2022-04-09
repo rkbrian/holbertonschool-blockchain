@@ -16,8 +16,9 @@ block_hash-test: # usage: ./block_hash-test
 blockchain_serialize-test: # usage: ./blockchain_serialize-test
 # hexdump -Cv save.hblk
 	$(CC) $(CFLAGS) -I. -o $@ blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c blockchain_serialize.c provided/_endianness.c test/blockchain_serialize-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
-
-
+blockchain_deserialize-test: # hexdump -Cv save.hblk
+# usage: ./blockchain_deserialize-test
+	$(CC) $(CFLAGS) -I. -o $@ blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c blockchain_deserialize.c provided/_blockchain_print.c provided/_endianness.c test/blockchain_deserialize-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
 $(OBJ): %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 oclean:
