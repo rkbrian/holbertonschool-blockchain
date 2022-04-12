@@ -1,13 +1,9 @@
 #ifndef BLOCKCHAIN_H
 #define BLOCKCHAIN_H
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <unistd.h>
 #include <llist.h>
 #include <time.h>
-#include <stdint.h>
 #include "../../crypto/hblk_crypto.h"
 #include "provided/endianness.h" /* endianness is defined here */
 
@@ -93,6 +89,7 @@ uint8_t *block_hash(block_t const *block,
 		    uint8_t hash_buf[SHA256_DIGEST_LENGTH]);
 int blockchain_serialize(blockchain_t const *blockchain, char const *path);
 blockchain_t *blockchain_deserialize(char const *path);
+int block_is_valid(block_t const *block, block_t const *prev_block);
 
 /* helper functions */
 void block_swap(void *block_content, size_t size, FILE *fp, int endianness);

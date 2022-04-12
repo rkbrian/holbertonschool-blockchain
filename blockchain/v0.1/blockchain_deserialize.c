@@ -8,6 +8,7 @@
  *  - Unable to open/read file,
  *  - Incorrect magic number
  *  - Version mismatch
+ * Note: fread may not successfully read, init blocks_count = 0 is safer
  */
 blockchain_t *blockchain_deserialize(char const *path)
 {
@@ -15,7 +16,7 @@ blockchain_t *blockchain_deserialize(char const *path)
 	blockchain_t *bc;
 	block_t *block;
 	char magicnum[5], version[4]; /* strlen(string) = sizeof(string) - 1 */
-	size_t blocks_count, i = 0;
+	size_t blocks_count = 0, i = 0;
 	uint8_t endi;
 
 	if (!path)
@@ -44,8 +45,7 @@ blockchain_t *blockchain_deserialize(char const *path)
 			return (NULL);
 		}
 		block_sweep(block, endi, fp);
-		llist_add_node(bc->chain, block, ADD_NODE_REAR);
-		i++;
+		llist_add_node(bc->chain, block, ADD_NODE_REAR), i++;
 	}
 	fclose(fp);
 	return (bc);
@@ -65,6 +65,7 @@ void block_sweep(block_t *block, int endianness, FILE *fp)
 	fread(&block->info.nonce, sizeof(block->info.nonce), 1, fp);
 	fread(block->info.prev_hash, sizeof(block->info.prev_hash), 1, fp);
 	fread(&block->data.len, sizeof(block->data.len), 1, fp);
+	memset(block->data.buffer, 0, sizeof(block->data.buffer));
 	fread(block->data.buffer, block->data.len, 1, fp);
 	fread(block->hash, sizeof(block->hash), 1, fp);
 	if (endianness == 2) /* big endianness */
