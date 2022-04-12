@@ -14,8 +14,8 @@ blockchain_t *blockchain_deserialize(char const *path)
 	FILE *fp = NULL;
 	blockchain_t *bc;
 	block_t *block;
-	char magicnum[4], version[4];
-	size_t byte_i = 0, blocks_count, i = 0;
+	char magicnum[5], version[4]; /* strlen(string) = sizeof(string) - 1 */
+	size_t blocks_count, i = 0;
 	uint8_t endi;
 
 	if (!path)
@@ -24,22 +24,28 @@ blockchain_t *blockchain_deserialize(char const *path)
 	if (!fp)
 		return (NULL);
 	fseek(fp, 0, SEEK_SET), fread(magicnum, strlen(HBLK_MAGIC), 1, fp);
-	fseek(fp, strlen(HBLK_MAGIC), SEEK_SET); /* strlen() = sizeof() - 1 */
-	fread(version, strlen(HBLK_VERSION), 1, fp), byte_i += strlen(HBLK_MAGIC);
-	if (strcmp(magicnum, HBLK_MAGIC) != 0 || strcmp(version, HBLK_VERSION) != 0)
+	magicnum[strlen(HBLK_MAGIC)] = 0, fread(version, strlen(HBLK_VERSION), 1, fp);
+	version[strlen(HBLK_VERSION)] = 0, bc = malloc(sizeof(blockchain_t));
+	if (strcmp(magicnum, HBLK_MAGIC) != 0 || strcmp(version, HBLK_VERSION) != 0 ||
+	    !bc)
+	{
+		fclose(fp);
 		return (NULL);
-	bc = blockchain_create(), byte_i += strlen(HBLK_VERSION);
-	if (!bc)
-		return (NULL);
-	block = llist_get_head(blockchain->chain), fseek(fp, byte_i, 1, fp);
-	fread(&endi, sizeof(uint8_t), 1, fp), byte_i += sizeof(uint8_t);
-	fseek(fp, byte_i, 1, fp), fread(&blocks_count, sizeof(int), 1, fp);
-	printf("endian: %u; blocks count: %u\n", endi, blocks_count); /* debug checking */
+	}
+	bc->chain = llist_create(MT_SUPPORT_FALSE);
+	fread(&endi, sizeof(uint8_t), 1, fp);
+	fread(&blocks_count, sizeof(int), 1, fp);
 	while (i < blocks_count)
 	{
-		;
-		block = block_create(block, (int8_t *)"Holberton", 9);
-		;
+		block = malloc(sizeof(block_t));
+		if (!block)
+		{
+			llist_destroy(bc->chain, i, NULL), fclose(fp);
+			return (NULL);
+		}
+		block_sweep(block, endi, fp);
+		llist_add_node(bc->chain, block, ADD_NODE_REAR);
+		i++;
 	}
 	fclose(fp);
 	return (bc);
@@ -47,14 +53,29 @@ blockchain_t *blockchain_deserialize(char const *path)
 
 /**
  * block_sweep - function to swap bytes for proper endianness
- * @block_content: block content
- * @size: size of the block content
- * @fp: file pointer
+ * @block: block
  * @endianness: endianness
+ * @fp: file pointer
  */
-void block_sweep(void *block_content, size_t size, FILE *fp, int endianness)
+void block_sweep(block_t *block, int endianness, FILE *fp)
 {
+	fread(&block->info.index, sizeof(block->info.index), 1, fp);
+	fread(&block->info.difficulty, sizeof(block->info.difficulty), 1, fp);
+	fread(&block->info.timestamp, sizeof(block->info.timestamp), 1, fp);
+	fread(&block->info.nonce, sizeof(block->info.nonce), 1, fp);
+	fread(block->info.prev_hash, sizeof(block->info.prev_hash), 1, fp);
+	fread(&block->data.len, sizeof(block->data.len), 1, fp);
+	fread(block->data.buffer, block->data.len, 1, fp);
+	fread(block->hash, sizeof(block->hash), 1, fp);
 	if (endianness == 2) /* big endianness */
-		_swap_endian(block_content, size);
-	fread(block_content, size, 1, fp);
+	{
+		_swap_endian(&block->info.index, sizeof(block->info.index));
+		_swap_endian(&block->info.difficulty, sizeof(block->info.difficulty));
+		_swap_endian(&block->info.timestamp, sizeof(block->info.timestamp));
+		_swap_endian(&block->info.nonce, sizeof(block->info.nonce));
+		_swap_endian(block->info.prev_hash, sizeof(block->info.prev_hash));
+		_swap_endian(&block->data.len, sizeof(block->data.len));
+		_swap_endian(block->data.buffer, block->data.len);
+		_swap_endian(block->hash, sizeof(block->hash));
+	}
 }

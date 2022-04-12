@@ -96,5 +96,6 @@ blockchain_t *blockchain_deserialize(char const *path);
 
 /* helper functions */
 void block_swap(void *block_content, size_t size, FILE *fp, int endianness);
+void block_sweep(block_t *block, int endianness, FILE *fp);
 
 #endif /* BLOCKCHAIN_H */
