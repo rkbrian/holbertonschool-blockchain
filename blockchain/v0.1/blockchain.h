@@ -94,5 +94,6 @@ int block_is_valid(block_t const *block, block_t const *prev_block);
 /* helper functions */
 void block_swap(void *block_content, size_t size, FILE *fp, int endianness);
 void block_sweep(block_t *block, int endianness, FILE *fp);
+int gen_block_validity(block_t const *block);
 
 #endif /* BLOCKCHAIN_H */
