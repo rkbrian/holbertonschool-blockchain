@@ -13,6 +13,10 @@
 \x97\xd4\x8d\x0c\x8e\x00\x09\xc8\x17\xf2\xb1\xd3\xd7\xff\x2f\x04\x51\x58\x03"
 #define HBLK_MAGIC "HBLK"
 #define HBLK_VERSION "0.1"
+/* Defines how often (in seconds) a Block should be found: */
+#define BLOCK_GENERATION_INTERVAL 1
+/* Defines how often (in Blocks) the difficulty should be adjusted: */
+#define DIFFICULTY_ADJUSTMENT_INTERVAL 5
 
 /**
  * struct block_info_s - Block info structure
@@ -94,6 +98,7 @@ int block_is_valid(block_t const *block, block_t const *prev_block);
 int hash_matches_difficulty(uint8_t const hash[SHA256_DIGEST_LENGTH],
 			    uint32_t difficulty);
 void block_mine(block_t *block);
+uint32_t blockchain_difficulty(blockchain_t const *blockchain);
 /* helper functions */
 void block_swap(void *block_content, size_t size, FILE *fp, int endianness);
 void block_sweep(block_t *block, int endianness, FILE *fp);
