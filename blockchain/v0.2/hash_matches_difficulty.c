@@ -14,8 +14,6 @@ int hash_matches_difficulty(uint8_t const hash[SHA256_DIGEST_LENGTH],
 	for (i = 0; i < SHA256_DIGEST_LENGTH && test_diff < difficulty;
 	     test_diff += 8, i++) /* leap of bite size = 8 */
 	{
-		if (128 & hash[i])
-			return (0);
 	}
 	test_diff -= 8, i--;
 	for (binary_ha = 128; binary_ha > 0; binary_ha = binary_ha >> 1)
