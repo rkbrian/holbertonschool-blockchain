@@ -11,11 +11,17 @@ int hash_matches_difficulty(uint8_t const hash[SHA256_DIGEST_LENGTH],
 {
 	uint32_t i, binary_ha, test_diff = 0;
 
-	for (i = 0; i < SHA256_DIGEST_LENGTH && test_diff < difficulty;
-	     test_diff += 8, i++) /* leap of bite size = 8 */
+	if (difficulty > SHA256_DIGEST_LENGTH * 8)
+		return (0);
+	for (i = 0; i < SHA256_DIGEST_LENGTH; i++)
 	{
+		if (hash[i] == 0)
+			test_diff += 8; /* leap of bite size = 8 */
+		else
+			break;
 	}
-	test_diff -= 8, i--;
+	if (i == SHA256_DIGEST_LENGTH)
+		return (1);
 	for (binary_ha = 128; binary_ha > 0; binary_ha = binary_ha >> 1)
 	{
 		if (binary_ha & hash[i])
