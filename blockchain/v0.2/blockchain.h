@@ -93,6 +93,7 @@ int block_is_valid(block_t const *block, block_t const *prev_block);
 /* block mining */
 int hash_matches_difficulty(uint8_t const hash[SHA256_DIGEST_LENGTH],
 			    uint32_t difficulty);
+void block_mine(block_t *block);
 /* helper functions */
 void block_swap(void *block_content, size_t size, FILE *fp, int endianness);
 void block_sweep(block_t *block, int endianness, FILE *fp);
