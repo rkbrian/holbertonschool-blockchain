@@ -30,6 +30,20 @@ blockchain_difficulty-test: # usage: ./blockchain_difficulty-test
 # transactions
 transaction/tx_out_create-test: # usage: ./transaction/tx_out_create-test
 	$(CC) $(CFLAGS) -g3 -I. -Itransaction/ -Iprovided/ -I../../crypto -o $@ transaction/tx_out_create.c provided/_print_hex_buffer.c transaction/test/tx_out_create-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
+transaction/unspent_tx_out_create-test: # usage: ./transaction/unspent_tx_out_create-test
+	$(CC) $(CFLAGS) -g3 -I. -Itransaction/ -Iprovided/ -I../../crypto -o $@ transaction/tx_out_create.c transaction/unspent_tx_out_create.c provided/_print_hex_buffer.c transaction/test/unspent_tx_out_create-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
