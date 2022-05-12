@@ -1,9 +1,13 @@
 #ifndef TRANSACTION_H
 #define TRANSACTION_H
 
-#include "blockchain.h"
-
 # define COINBASE_AMOUNT 50
+
+#include <unistd.h>
+#include <llist.h>
+#include <time.h>
+#include "../../crypto/hblk_crypto.h"
+#include "provided/endianness.h" /* endianness is defined here */
 
 /**
  * struct transaction_s - Transaction structure

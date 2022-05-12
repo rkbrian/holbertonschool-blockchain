@@ -1,4 +1,4 @@
-#include "transaction.h"
+#include "../blockchain.h"
 
 /**
  * tx_out_create - allocate and initialize a transaction output structure

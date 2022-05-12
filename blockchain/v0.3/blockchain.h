@@ -6,6 +6,7 @@
 #include <time.h>
 #include "../../crypto/hblk_crypto.h"
 #include "provided/endianness.h" /* endianness is defined here */
+#include "transaction/transaction.h"
 
 #define BLOCKCHAIN_DATA_MAX 1024
 #define GENESIS_STRING "Holberton School"
