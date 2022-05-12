@@ -3,6 +3,7 @@
 /**
  * unspent_tx_out_create - allocate and initialize an unspent transaction
  *  output structure
+ *
  * @block_hash: the hash of the Block where the referenced transaction output
  *  is located
  * @tx_id: the hash of a transaction in the Block block_hash, where the

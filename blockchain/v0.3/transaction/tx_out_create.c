@@ -2,6 +2,7 @@
 
 /**
  * tx_out_create - allocate and initialize a transaction output structure
+ *
  * @amount: the amount of the transaction
  * @pub: the public key of the transaction receiver
  * Return: Pointer to the created transaction output upon success,
