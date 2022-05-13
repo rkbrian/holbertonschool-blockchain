@@ -31,7 +31,7 @@ uint8_t *transaction_hash(transaction_t const *transaction,
 	for (i = 0; i < output_len; i++)
 	{
 		curr_output = llist_get_node_at(transaction->outputs, i);
-		memcpy(hash_ptr + tx_offset, curr_output, 32);
+		memcpy(hash_ptr + tx_offset, curr_output->hash, 32);
 		tx_offset += 32;
 	}
 	sha256(hash_ptr, buffer_len, hash_buf);
