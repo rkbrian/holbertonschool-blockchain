@@ -77,7 +77,7 @@ typedef struct unspent_tx_out_s
 	uint8_t  tx_id[SHA256_DIGEST_LENGTH];
 	tx_out_t out;
 } unspent_tx_out_t;
-
+/*main functions*/
 tx_out_t *tx_out_create(uint32_t amount, uint8_t const pub[EC_PUB_LEN]);
 unspent_tx_out_t *unspent_tx_out_create(uint8_t
 					block_hash[SHA256_DIGEST_LENGTH],
@@ -95,9 +95,10 @@ int transaction_is_valid(transaction_t const *transaction,
 
 
 transaction_t *coinbase_create(EC_KEY const *receiver, uint32_t block_index);
-
-
-
+/*helper functions*/
+transaction_t *tx_init(void);
+uint32_t input_selector(llist_t *input_list, llist_t *all_unspent,
+			uint32_t amount, uint8_t key_in[EC_PUB_LEN]);
 
 
 
