@@ -30,7 +30,7 @@ transaction_t *transaction_create(EC_KEY const *sender,
 		llist_destroy(tran->outputs, 0, NULL), free(tran);
 		return (NULL);
 	}
-	tx_out = tx_out_create(amount, key_in); /* create outputs */
+	tx_out = tx_out_create(amount, key_out); /* create outputs */
 	llist_add_node(tran->outputs, tx_out, ADD_NODE_REAR);
 	if (balance > amount) /* extra action for sending back the difference */
 	{
