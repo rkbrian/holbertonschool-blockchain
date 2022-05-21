@@ -12,6 +12,7 @@ block_t const GEN_BLOCK_COPY = {
 		GENESIS_STRING,
 		16
 	},
+	NULL,
 	GENESIS_HASH
 };
 
@@ -20,9 +21,15 @@ block_t const GEN_BLOCK_COPY = {
  * @block: points to the Block to check
  * @prev_block: points to the previous Block in the Blockchain,
  *  or is NULL if block is the first Block of the chain
+ * @all_unspent: the list of all unspent transaction outputs to date
  * Return: 0 if valid, 1 if invalid
+ * Notes:
+ *  - A block must contain at least one transaction (at least the coinbase
+ *    transaction)
+ *  - The first transaction in a Block must be a valid coinbase transaction
  */
-int block_is_valid(block_t const *block, block_t const *prev_block)
+int block_is_valid(block_t const *block, block_t const *prev_block,
+		   llist_t *all_unspent)
 {
 	uint8_t hash_buffer[SHA256_DIGEST_LENGTH];
 
@@ -46,6 +53,10 @@ int block_is_valid(block_t const *block, block_t const *prev_block)
 	/* Check if Block's hash matches its difficulty */
 	if (!hash_matches_difficulty(block->hash, block->info.difficulty))
 		return (1);
+	if (llist_size(block->transactions) < 1)
+		return (1);
+	if (tx_list_validity(block, all_unspent) > 0)
+		return (1);
 	return (0);
 }
 
@@ -67,5 +78,27 @@ int gen_block_validity(block_t const *block)
 		    GEN_BLOCK_COPY.data.len) != 0) ||
 	    (memcmp(block->hash, GEN_BLOCK_COPY.hash, SHA256_DIGEST_LENGTH) != 0))
 		return (1);
+	return (0);
+}
+
+/**
+ * tx_list_validity - check if Block's list of transaction is valid
+ * @block: points to the Block to check
+ * @all_unspent: the list of all unspent transaction outputs to date
+ * Return: 0 if valid, 1 if invalid
+ */
+int tx_list_validity(block_t const *block, llist_t *all_unspent)
+{
+	int i;
+	transaction_t *tx_temp;
+
+	for (i = 0; i < llist_size(block->transactions); i++)
+	{
+		tx_temp = llist_get_node_at(block->transactions, i);
+		if (i == 0 && coinbase_is_valid(tx_temp, block->info.index) == 0)
+			return (1);
+		else if (i > 0 && transaction_is_valid(tx_temp, all_unspent) == 0)
+			return (1);
+	}
 	return (0);
 }

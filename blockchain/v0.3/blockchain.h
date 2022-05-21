@@ -98,7 +98,8 @@ uint8_t *block_hash(block_t const *block,
 		    uint8_t hash_buf[SHA256_DIGEST_LENGTH]);
 int blockchain_serialize(blockchain_t const *blockchain, char const *path);
 blockchain_t *blockchain_deserialize(char const *path);
-int block_is_valid(block_t const *block, block_t const *prev_block);
+int block_is_valid(block_t const *block, block_t const *prev_block,
+		   llist_t *all_unspent);
 /* block mining */
 int hash_matches_difficulty(uint8_t const hash[SHA256_DIGEST_LENGTH],
 			    uint32_t difficulty);
@@ -108,5 +109,6 @@ uint32_t blockchain_difficulty(blockchain_t const *blockchain);
 void block_swap(void *block_content, size_t size, FILE *fp, int endianness);
 void block_sweep(block_t *block, int endianness, FILE *fp);
 int gen_block_validity(block_t const *block);
+int tx_list_validity(block_t const *block, llist_t *all_unspent);
 
 #endif /* BLOCKCHAIN_H */

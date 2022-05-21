@@ -23,7 +23,7 @@ blockchain_deserialize-test: # hexdump -Cv save.hblk
 # usage: ./blockchain_deserialize-test
 	$(CC) $(CFLAGS) -I. -o $@ blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c blockchain_deserialize.c provided/_blockchain_print.c provided/_endianness.c test/blockchain_deserialize-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
 block_is_valid-test: # usage: ./block_is_valid-test
-	$(CC) $(CFLAGS) -I. -o $@ blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c block_is_valid.c test/block_is_valid-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
+	$(CC) $(CFLAGS) -g3 -I. -Itransaction/ -Iprovided/ -I../../crypto -o $@ blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c block_is_valid.c hash_matches_difficulty.c blockchain_difficulty.c block_mine.c transaction/tx_out_create.c transaction/unspent_tx_out_create.c transaction/tx_in_create.c transaction/transaction_hash.c transaction/tx_in_sign.c transaction/transaction_create.c transaction/transaction_is_valid.c transaction/coinbase_create.c transaction/coinbase_is_valid.c transaction/transaction_destroy.c provided/_genesis.c provided/_print_hex_buffer.c test/block_is_valid-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
 hash_matches_difficulty-test: # usage: ./hash_matches_difficulty-test
 	$(CC) $(CFLAGS) -I. -I../../crypto -o $@ hash_matches_difficulty.c test/hash_matches_difficulty-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
 block_mine-test: # usage: ./block_mine-test

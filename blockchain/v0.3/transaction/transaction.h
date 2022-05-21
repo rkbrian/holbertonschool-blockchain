@@ -100,6 +100,7 @@ void transaction_destroy(transaction_t *transaction);
 transaction_t *tx_init(void);
 uint32_t input_selector(llist_t *input_list, llist_t *all_unspent,
 			uint32_t amount, uint8_t key_in[EC_PUB_LEN]);
+/* unused */
 int zeroed_mem(void *ptr, size_t size);
 
 #endif /* TRANSACTION_H */
