@@ -101,7 +101,7 @@ int coinbase_is_valid(transaction_t const *coinbase, uint32_t block_index);
 transaction_t *tx_init(void);
 uint32_t input_selector(llist_t *input_list, llist_t *all_unspent,
 			uint32_t amount, uint8_t key_in[EC_PUB_LEN]);
-
+int zeroed_mem(void *ptr, size_t size);
 
 
 
