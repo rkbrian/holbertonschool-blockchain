@@ -25,7 +25,7 @@ uint8_t *block_hash(block_t const *block,
 		tx_temp = llist_get_node_at(block->transactions, i);
 		memcpy(buffer + new_len, tx_temp->id, SHA256_DIGEST_LENGTH);
 	}
-	sha256(buffer, new_len + (SHA256_DIGEST_LENGTH * tx_size), hash_buf);
+	sha256(buffer, new_len, hash_buf); /* now new_len = buffer size */
 	free(buffer);
 	return (hash_buf);
 }
