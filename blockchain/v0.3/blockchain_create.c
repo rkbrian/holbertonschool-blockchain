@@ -12,6 +12,7 @@ block_t const GEN_BLOCK = {
 		GENESIS_STRING,
 		16
 	},
+	NULL, /* transactions */
 	GENESIS_HASH /* hash */
 };
 
@@ -36,6 +37,7 @@ blockchain_t *blockchain_create(void)
 		return (NULL);
 	}
 	blockchain->chain = llist_create(MT_SUPPORT_FALSE);
+	blockchain->unspent = llist_create(MT_SUPPORT_FALSE); /* unspent */
 	/*block->info.index = 0, block->info.difficulty = 0;*/
 	/*block->info.timestamp = 1537578000, block->info.nonce = 0;*/
 	/*memset(block->info.prev_hash, 0, SHA256_DIGEST_LENGTH);*/
