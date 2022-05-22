@@ -95,11 +95,13 @@ int transaction_is_valid(transaction_t const *transaction,
 transaction_t *coinbase_create(EC_KEY const *receiver, uint32_t block_index);
 int coinbase_is_valid(transaction_t const *coinbase, uint32_t block_index);
 void transaction_destroy(transaction_t *transaction);
-
+llist_t *update_unspent(llist_t *transactions,
+			uint8_t block_hash[SHA256_DIGEST_LENGTH], llist_t *all_unspent);
 /* helper functions */
 transaction_t *tx_init(void);
 uint32_t input_selector(llist_t *input_list, llist_t *all_unspent,
 			uint32_t amount, uint8_t key_in[EC_PUB_LEN]);
+void find_io_match(transaction_t *tx, llist_t *all_unspent, llist_t *new_uns);
 /* unused */
 int zeroed_mem(void *ptr, size_t size);
 
