@@ -10,14 +10,15 @@
 uint8_t *block_hash(block_t const *block,
 		    uint8_t hash_buf[SHA256_DIGEST_LENGTH])
 {
-	size_t new_len, i, tx_size;
+	size_t new_len, i, tx_size = 0;
 	int8_t *buffer;
 	transaction_t *tx_temp;
 
 	if (!block)
 		return (NULL);
 	new_len = sizeof(block->info) + block->data.len; /* offset */
-	tx_size = llist_size(block->transactions);
+	if (block->transactions)
+		tx_size = llist_size(block->transactions);
 	buffer = malloc(new_len + (SHA256_DIGEST_LENGTH * tx_size));
 	memcpy(buffer, block, new_len); /* offset copy */
 	for (i = 0; i < tx_size; i++, new_len += SHA256_DIGEST_LENGTH)
