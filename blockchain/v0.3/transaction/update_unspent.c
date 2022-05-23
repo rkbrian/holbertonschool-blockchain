@@ -31,7 +31,6 @@ llist_t *update_unspent(llist_t *transactions,
 	{
 		uns = llist_get_node_at(all_unspent, i);
 		new_uns = find_io_match(uns, transactions, new_uns);
-		printf("debugger\n");
 	}
 	/* for safety's sake, do a new loop */
 	for (i = 0; i < llist_size(transactions); i++)
