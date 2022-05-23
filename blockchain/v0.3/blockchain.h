@@ -110,5 +110,7 @@ void block_swap(void *block_content, size_t size, FILE *fp, int endianness);
 void block_sweep(block_t *block, int endianness, FILE *fp);
 int gen_block_validity(block_t const *block);
 int tx_list_validity(block_t const *block, llist_t *all_unspent);
+void tx_serialize(llist_t *transactions, FILE *fp, int endianness);
+void uns_serialize(llist_t *unspent, FILE *fp, int endianness);
 
 #endif /* BLOCKCHAIN_H */
