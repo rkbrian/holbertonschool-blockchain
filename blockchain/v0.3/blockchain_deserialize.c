@@ -63,6 +63,7 @@ blockchain_t *blockchain_deserialize(char const *path)
  */
 void read_uns(int uns_count, FILE *fp, blockchain_t *bc, int endianness)
 {
+	int j;
 	unspent_tx_out_t *uns;
 
 	for (j = 0; j < uns_count; j++)
@@ -117,7 +118,7 @@ void block_sweep(block_t *block, int endianness, FILE *fp)
 	if (nb_tx == 1) /* coinbase */
 		block->transactions = NULL;
 	else
-		read_tx(block, endianness, fp);
+		read_tx(block, endianness, fp, nb_tx);
 }
 
 /**
