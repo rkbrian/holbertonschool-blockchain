@@ -34,8 +34,8 @@ llist_t *update_unspent(llist_t *transactions,
 	}
 	/* for safety's sake, do a new loop */
 	for (i = 0; i < llist_size(transactions); i++)
-        {
-                tx = llist_get_node_at(transactions, i);
+	{
+		tx = llist_get_node_at(transactions, i);
 		for (j = 0; j < llist_size(tx->outputs); j++)
 		{
 			tx_out = llist_get_node_at(tx->outputs, j);
@@ -60,7 +60,7 @@ llist_t *find_io_match(unspent_tx_out_t *uns, llist_t *transactions,
 {
 	int i, j, flag = 0;
 	transaction_t *tx;
-        tx_in_t *tx_in;
+	tx_in_t *tx_in;
 
 	for (i = 0; i < llist_size(transactions); i++)
 	{
