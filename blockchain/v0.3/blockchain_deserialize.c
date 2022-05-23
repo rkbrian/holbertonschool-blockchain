@@ -71,8 +71,11 @@ void read_uns(int uns_count, FILE *fp, blockchain_t *bc, int endianness)
 		fread(uns, 165, 1, fp);
 		if (endianness == 2)
 		{
-
-			;
+			_swap_endian(&uns->block_hash, 32);
+			_swap_endian(&uns->tx_id, 32);
+			_swap_endian(&uns->out.amount, 4);
+			_swap_endian(&uns->out.pub, 65);
+			_swap_endian(&uns->out.hash, 32);
 		}
 		llist_add_node(bc->unspent, uns, ADD_NODE_REAR);
 	}
