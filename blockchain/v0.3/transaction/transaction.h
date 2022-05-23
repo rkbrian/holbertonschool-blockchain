@@ -101,7 +101,8 @@ llist_t *update_unspent(llist_t *transactions,
 transaction_t *tx_init(void);
 uint32_t input_selector(llist_t *input_list, llist_t *all_unspent,
 			uint32_t amount, uint8_t key_in[EC_PUB_LEN]);
-void find_io_match(transaction_t *tx, llist_t *all_unspent, llist_t *new_uns);
+llist_t *find_io_match(unspent_tx_out_t *uns, llist_t *transactions,
+                       llist_t *new_uns);
 /* unused */
 int zeroed_mem(void *ptr, size_t size);
 

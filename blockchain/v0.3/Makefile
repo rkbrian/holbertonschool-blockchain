@@ -1,7 +1,9 @@
 CC = gcc
-SRC = blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c
-OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -pedantic
+SRCBASIC = blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c blockchain_serialize.c blockchain_deserialize.c block_is_valid.c hash_matches_difficulty.c blockchain_difficulty.c block_mine.c
+SRCTX = tx_out_create.c unspent_tx_out_create.c tx_in_create.c transaction_hash.c tx_in_sign.c transaction_create.c transaction_is_valid.c coinbase_create.c coinbase_is_valid.c transaction_destroy.c update_unspent.c
+SRC = $(SRCBASIC) $(SRCTX)
+OBJ = $(SRC:.c=.o)
 RM = rm -f
 
 # needs update here
@@ -53,7 +55,8 @@ transaction/transaction_destroy-test: # usage: valgrind ./transaction/transactio
 	$(CC) $(CFLAGS) -g3 -I. -Itransaction/ -Iprovided/ -I../../crypto -o $@ transaction/tx_out_create.c transaction/tx_in_create.c transaction/transaction_hash.c transaction/tx_in_sign.c transaction/transaction_create.c transaction/coinbase_create.c transaction/transaction_destroy.c transaction/test/transaction_destroy-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
 transaction/update_unspent-test: # usage: ./transaction/update_unspent-test
 	$(CC) $(CFLAGS) -g3 -I. -Itransaction/ -Iprovided/ -I../../crypto -o $@ blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c block_is_valid.c hash_matches_difficulty.c blockchain_difficulty.c block_mine.c transaction/tx_out_create.c transaction/unspent_tx_out_create.c transaction/tx_in_create.c transaction/transaction_hash.c transaction/tx_in_sign.c transaction/transaction_create.c transaction/transaction_is_valid.c transaction/coinbase_create.c transaction/coinbase_is_valid.c transaction/transaction_destroy.c transaction/update_unspent.c provided/_genesis.c provided/_print_hex_buffer.c provided/_blockchain_print.c provided/_transaction_print.c provided/_transaction_print_brief.c transaction/test/update_unspent-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
-
+libhblk_blockchain.a: $(OBJ)
+	ar rcs libhblk_blockchain.a $(OBJ)
 
 $(OBJ): %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
