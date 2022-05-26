@@ -17,7 +17,7 @@ blockchain_t *blockchain_deserialize(char const *path)
 	block_t *block;
 	char magicnum[5], version[4]; /* strlen(string) = sizeof(string) - 1 */
 	size_t i = 0;
-	unsigned int blocks_count = 0, uns_count = 0;
+	int blocks_count = 0, uns_count = 0;
 	uint8_t endi;
 
 	if (!path)
@@ -37,8 +37,8 @@ blockchain_t *blockchain_deserialize(char const *path)
 	bc->chain = llist_create(MT_SUPPORT_FALSE);
 	bc->unspent = llist_create(MT_SUPPORT_FALSE);
 	fread(&endi, sizeof(uint8_t), 1, fp);
-	fread(&blocks_count, sizeof(unsigned int), 1, fp);
-	fread(&uns_count, sizeof(unsigned int), 1, fp);
+	fread(&blocks_count, sizeof(int), 1, fp);
+	fread(&uns_count, sizeof(int), 1, fp);
 	while (i < blocks_count)
 	{
 		block = malloc(sizeof(block_t));
@@ -90,7 +90,7 @@ void read_uns(int uns_count, FILE *fp, blockchain_t *bc, int endianness)
  */
 void block_sweep(block_t *block, int endianness, FILE *fp)
 {
-	unsigned int nb_tx;
+	int nb_tx;
 
 	fread(&block->info.index, sizeof(block->info.index), 1, fp);
 	fread(&block->info.difficulty, sizeof(block->info.difficulty), 1, fp);
@@ -133,7 +133,7 @@ void read_tx(block_t *block, int endianness, FILE *fp, unsigned int nb_tx)
 	transaction_t *tx;
 	tx_in_t *tx_in;
 	tx_out_t *tx_out;
-	unsigned int i, j, nb_inputs, nb_outputs;
+	int i, j, nb_inputs, nb_outputs;
 
 	block->transactions = llist_create(MT_SUPPORT_FALSE);
 	for (i = 0; i < nb_tx; i++)

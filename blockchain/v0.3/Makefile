@@ -1,8 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -pedantic
-SRCBASIC = blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c blockchain_serialize.c blockchain_deserialize.c block_is_valid.c hash_matches_difficulty.c blockchain_difficulty.c block_mine.c
-SRCTX = tx_out_create.c unspent_tx_out_create.c tx_in_create.c transaction_hash.c tx_in_sign.c transaction_create.c transaction_is_valid.c coinbase_create.c coinbase_is_valid.c transaction_destroy.c update_unspent.c
-SRC = $(SRCBASIC) $(SRCTX)
+SRC = blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c blockchain_serialize.c blockchain_deserialize.c block_is_valid.c hash_matches_difficulty.c blockchain_difficulty.c block_mine.c tx_out_create.c unspent_tx_out_create.c tx_in_create.c transaction_hash.c tx_in_sign.c transaction_create.c transaction_is_valid.c coinbase_create.c coinbase_is_valid.c transaction_destroy.c update_unspent.c
 OBJ = $(SRC:.c=.o)
 RM = rm -f
 

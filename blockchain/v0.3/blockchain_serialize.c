@@ -56,7 +56,7 @@ int blockchain_serialize(blockchain_t const *blockchain, char const *path)
 void tx_serialize(llist_t *transactions, FILE *fp, int endianness)
 {
 	int i, j, tx_size = 0;
-	unsigned int nb_inputs, nb_outputs;
+	int nb_inputs, nb_outputs;
 	transaction_t *tx;
 	tx_in_t *tx_in;
 	tx_out_t *tx_out;

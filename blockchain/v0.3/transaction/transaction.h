@@ -6,8 +6,8 @@
 #include <unistd.h>
 #include <llist.h>
 #include <time.h>
-#include "../../crypto/hblk_crypto.h"
-#include "provided/endianness.h" /* endianness is defined here */
+#include "../../../crypto/hblk_crypto.h"
+#include "../provided/endianness.h" /* endianness is defined here */
 
 /**
  * struct transaction_s - Transaction structure
