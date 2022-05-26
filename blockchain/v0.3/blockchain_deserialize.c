@@ -16,7 +16,7 @@ blockchain_t *blockchain_deserialize(char const *path)
 	blockchain_t *bc;
 	block_t *block;
 	char magicnum[5], version[4]; /* strlen(string) = sizeof(string) - 1 */
-	size_t i = 0;
+	int i = 0;
 	int blocks_count = 0, uns_count = 0;
 	uint8_t endi;
 
