@@ -112,9 +112,9 @@ void block_sweep(block_t *block, int endianness, FILE *fp)
 		_swap_endian(block->data.buffer, block->data.len);
 		_swap_endian(block->hash, sizeof(block->hash));
 	}
-	fread(&nb_tx, 4, 1, fp);
+	fread(&nb_tx, sizeof(nb_tx), 1, fp);
 	if (endianness == 2) /* big endianness */
-		_swap_endian(&nb_tx, 4);
+		_swap_endian(&nb_tx, sizeof(nb_tx));
 	if (nb_tx == 1) /* coinbase */
 		block->transactions = NULL;
 	else
@@ -139,11 +139,12 @@ void read_tx(block_t *block, int endianness, FILE *fp, int nb_tx)
 	for (i = 0; i < nb_tx; i++)
 	{
 		tx = malloc(sizeof(transaction_t)), fread(&tx->id, 32, 1, fp);
-		fread(&nb_inputs, 4, 1, fp), fread(&nb_outputs, 4, 1, fp);
+		fread(&nb_inputs, sizeof(nb_inputs), 1, fp);
+		fread(&nb_outputs, sizeof(nb_outputs), 1, fp);
 		if (endianness == 2) /* big endianness */
 		{
-			_swap_endian(&tx->id, 32), _swap_endian(&nb_inputs, 4);
-			_swap_endian(&nb_outputs, 4);
+			_swap_endian(&tx->id, 32), _swap_endian(&nb_inputs, sizeof(nb_inputs));
+			_swap_endian(&nb_outputs, sizeof(nb_outputs));
 		}
 		for (j = 0; j < nb_inputs; j++)
 		{
@@ -157,7 +158,8 @@ void read_tx(block_t *block, int endianness, FILE *fp, int nb_tx)
 			tx_out = malloc(sizeof(tx_out_t)), fread(tx_out, 101, 1, fp);
 			if (endianness == 2) /* big endianness */
 			{
-				_swap_endian(&tx_out->amount, 4), _swap_endian(&tx_out->pub, 65);
+				_swap_endian(&tx_out->amount, sizeof(tx_out->amount));
+				_swap_endian(&tx_out->pub, 65);
 				_swap_endian(&tx_out->hash, 32);
 			}
 			llist_add_node(tx->outputs, tx_out, ADD_NODE_REAR);
