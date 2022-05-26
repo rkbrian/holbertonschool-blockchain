@@ -113,7 +113,7 @@ int tx_list_validity(block_t const *block, llist_t *all_unspent);
 void tx_serialize(llist_t *transactions, FILE *fp, int endianness);
 void uns_serialize(llist_t *unspent, FILE *fp, int endianness);
 void read_uns(int uns_count, FILE *fp, blockchain_t *bc, int endianness);
-void read_tx(block_t *block, int endianness, FILE *fp, unsigned int nb_tx);
+void read_tx(block_t *block, int endianness, FILE *fp, int nb_tx);
 void swap_tx_in(tx_in_t *tx_in);
 
 #endif /* BLOCKCHAIN_H */

@@ -128,7 +128,7 @@ void block_sweep(block_t *block, int endianness, FILE *fp)
  * @fp: file pointer
  * @nb_tx: number of transactions
  */
-void read_tx(block_t *block, int endianness, FILE *fp, unsigned int nb_tx)
+void read_tx(block_t *block, int endianness, FILE *fp, int nb_tx)
 {
 	transaction_t *tx;
 	tx_in_t *tx_in;
