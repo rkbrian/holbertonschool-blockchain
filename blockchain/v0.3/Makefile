@@ -1,6 +1,8 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -pedantic
-SRC = blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c blockchain_serialize.c blockchain_deserialize.c block_is_valid.c hash_matches_difficulty.c blockchain_difficulty.c block_mine.c tx_out_create.c unspent_tx_out_create.c tx_in_create.c transaction_hash.c tx_in_sign.c transaction_create.c transaction_is_valid.c coinbase_create.c coinbase_is_valid.c transaction_destroy.c update_unspent.c
+SRCBC = blockchain_create.c block_create.c block_destroy.c blockchain_destroy.c block_hash.c blockchain_serialize.c blockchain_deserialize.c block_is_valid.c hash_matches_difficulty.c blockchain_difficulty.c block_mine.c
+SRCTX = tx_out_create.c unspent_tx_out_create.c tx_in_create.c transaction_hash.c tx_in_sign.c transaction_create.c transaction_is_valid.c coinbase_create.c coinbase_is_valid.c transaction_destroy.c update_unspent.c
+SRC = $(SRCBC) $(addprefix transaction/, $(SRCTX))
 OBJ = $(SRC:.c=.o)
 RM = rm -f
 
@@ -57,7 +59,8 @@ libhblk_blockchain.a: $(OBJ)
 	ar rcs libhblk_blockchain.a $(OBJ)
 
 $(OBJ): %.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $< -g3 -I. -Itransaction/ -Iprovided/ -I../../crypto
+# provided/_genesis.c provided/_print_hex_buffer.c provided/_blockchain_print.c provided/_transaction_print.c provided/_transaction_print_brief.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
 oclean:
 	$(RM) $(OBJ)
 testclean:
